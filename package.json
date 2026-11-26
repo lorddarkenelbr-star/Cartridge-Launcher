@@ -1,0 +1,44 @@
+{
+  "name": "cartridge",
+  "version": "1.0.0",
+  "description": "Cartridge Game Launcher",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build:linux": "electron-builder --linux AppImage pacman",
+    "build:win": "electron-builder --win nsis",
+    "cap:init": "cap init Cartridge com.cartridge.launcher --web-dir .",
+    "cap:add:android": "cap add android",
+    "cap:sync:android": "cap sync android",
+    "icons:android": "capacitor-assets generate --android --iconBackgroundColor '#0c0b12' --iconBackgroundColorDark '#0c0b12' --splashBackgroundColor '#0c0b12' --splashBackgroundColorDark '#0c0b12'"
+  },
+  "build": {
+    "appId": "com.cartridge.launcher",
+    "productName": "Cartridge",
+    "icon": "assets/icon.png",
+    "linux": {
+      "target": [
+        "AppImage",
+        "pacman"
+      ],
+      "icon": "assets/icon.png",
+      "category": "Game"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "assets/icon.png"
+    }
+  },
+  "devDependencies": {
+    "@capacitor/assets": "^3.0.0",
+    "electron": "^33.0.0",
+    "electron-builder": "^25.0.0"
+  },
+  "dependencies": {
+    "@capacitor/android": "^6.2.4",
+    "@capacitor/cli": "^6.2.4",
+    "@capacitor/core": "^6.2.4"
+  }
+}

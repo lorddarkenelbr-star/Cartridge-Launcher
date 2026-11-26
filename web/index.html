@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cartridge — Game Launcher</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="backdrop" class="backdrop"></div>
+
+  <header class="topbar">
+    <div class="brand-area">
+      <span class="brand-dot"></span>
+      <span class="brand-title">CARTRIDGE</span>
+      <span class="badge-btn" title="Anterior">L1</span>
+    </div>
+
+    <nav id="consoleTabs" class="console-tabs" aria-label="Consoles"></nav>
+
+    <div class="top-actions">
+      <span class="badge-btn" title="Próximo">R1</span>
+      <button id="btnAudioToggle" class="nav-btn" type="button" title="Som & Música">♪ Som: ON</button>
+      <button id="btnBiblioteca" class="nav-btn active" type="button">Biblioteca</button>
+      <button id="btnConfiguracoes" class="nav-btn" type="button">Configurações</button>
+    </div>
+  </header>
+
+  <main class="main-container">
+    <!-- ABA BIBLIOTECA -->
+    <section id="viewBiblioteca" class="view active">
+      <div class="library-header">
+        <div>
+          <h1 id="tituloSecao" class="section-title">Todos os Jogos</h1>
+          <p id="contadorJogos" class="section-subtitle">0 jogos carregados</p>
+        </div>
+        <div id="infoJogoAtual" class="current-game-meta"></div>
+      </div>
+
+      <div id="carouselContainer" class="carousel-container estilo-midia-fisica">
+        <div id="emptyState" class="empty-state">
+          <p id="textoVazio">Nenhuma ROM carregada ainda. Vá em Configurações para escolher a pasta de jogos.</p>
+        </div>
+        <div id="carouselTrack" class="carousel-track"></div>
+      </div>
+    </section>
+
+    <!-- ABA CONFIGURAÇÕES -->
+    <section id="viewConfiguracoes" class="view">
+      <aside class="settings-sidebar">
+        <button class="settings-tab active" data-tab="biblioteca" type="button">
+          <span id="labelTabBiblioteca">Biblioteca & Emuladores</span>
+        </button>
+        <button class="settings-tab" data-tab="estilo" type="button">
+          <span id="labelTabEstilo">Estilo do Jogo</span>
+        </button>
+        <button class="settings-tab" data-tab="scraping" type="button">
+          <span id="labelTabScraping">Scraping & Capas</span>
+        </button>
+        <button class="settings-tab" data-tab="idioma" type="button">
+          <span id="labelTabIdioma">Idioma & Controles</span>
+        </button>
+        <button class="settings-tab" data-tab="custom" type="button">
+          <span id="labelTabCustom">Customização & Discord</span>
+        </button>
+      </aside>
+
+      <div class="settings-content">
+        <!-- SUB-ABA 1: BIBLIOTECA & EMULADORES -->
+        <div id="tab-biblioteca" class="settings-panel active">
+          <h2 id="tituloConfigPasta">Biblioteca & Emuladores</h2>
+          <p id="descConfigPasta" class="panel-desc">Selecione a pasta de ROMs e escaneie os emuladores instalados no sistema.</p>
+
+          <div class="input-row">
+            <input id="inputPastaRoms" type="text" placeholder="/caminho/para/suas/roms" />
+            <button id="btnEscolherPasta" class="btn-secondary" type="button">Escolher Pasta</button>
+            <button id="btnCarregarPasta" class="btn-primary" type="button">Carregar Pasta</button>
+          </div>
+
+          <div class="card-box">
+            <div class="card-box-header">
+              <span id="labelEmuladoresDetectados">Emuladores Detectados</span>
+              <button id="btnEscanearEmuladores" class="btn-secondary" type="button">Escanear Emuladores</button>
+            </div>
+            <ul id="listaEmuladores" class="emu-list">
+              <li class="emu-empty">Nenhum escaneamento realizado ainda.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- SUB-ABA 2: ESTILO DO JOGO -->
+        <div id="tab-estilo" class="settings-panel">
+          <h2 id="tituloEstiloJogo">Estilo do Jogo</h2>
+          <p id="descEstiloJogo" class="panel-desc">Escolha como os cards de mídia física / cartucho aparecem na Biblioteca.</p>
+
+          <div class="style-grid">
+            <button class="style-card active" data-estilo="midia-fisica" type="button">
+              <strong id="estiloMidiaFisica">Mídia Física</strong>
+              <span id="estiloMidiaFisicaDesc">Carcaça/mídia física por console com arte do jogo.</span>
+            </button>
+            <button class="style-card" data-estilo="bolinhas-vita" type="button">
+              <strong id="estiloBolinhasVita">Bolinhas PS Vita</strong>
+              <span id="estiloBolinhasVitaDesc">Ícone circular/bolha estilo LiveArea do PS Vita.</span>
+            </button>
+            <button class="style-card" data-estilo="padrao-cartucho" type="button">
+              <strong id="estiloPadraoCartucho">Padrão Cartucho</strong>
+              <span id="estiloPadraoCartuchoDesc">Cartucho clássico com destaque de console e título.</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- SUB-ABA 3: SCRAPING & CAPAS -->
+        <div id="tab-scraping" class="settings-panel">
+          <h2 id="tituloScraping">Scraping & Capas</h2>
+          <p id="descScraping" class="panel-desc">
+            Busca automaticamente a capa de caixa física por console/região e usa o SteamGridDB como complemento.
+          </p>
+
+          <label for="inputApiKey" class="field-label">SteamGridDB API Key</label>
+          <div class="input-row">
+            <input id="inputApiKey" type="password" placeholder="Cole sua API Key do SteamGridDB" />
+            <button id="btnSalvarKey" class="btn-primary" type="button">Salvar Key</button>
+          </div>
+
+          <div class="status-list">
+            <div class="status-item">
+              <span>Boxart Físico / LibRetro + SteamGridDB</span>
+              <span class="pill-active">Ativo</span>
+            </div>
+            <div class="status-item">
+              <span>Filtro de Extensões por Console</span>
+              <span class="pill-active">Ativo</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- SUB-ABA 4: IDIOMA & CONTROLES -->
+        <div id="tab-idioma" class="settings-panel">
+          <h2 id="tituloIdiomaControles">Idioma & Controles</h2>
+          <p id="descIdiomaControles" class="panel-desc">Escolha o idioma da interface e região preferencial das capas.</p>
+
+          <label for="selectIdioma" class="field-label">Idioma / Language</label>
+          <div class="input-row">
+            <select id="selectIdioma" class="select-input">
+              <option value="pt-BR">Português (Brasil)</option>
+              <option value="en">English (USA / World)</option>
+              <option value="es">Español (Spain / USA)</option>
+              <option value="ja">日本語 (Japan)</option>
+            </select>
+            <button id="btnAplicarIdioma" class="btn-primary" type="button">Aplicar Idioma</button>
+          </div>
+
+          <div class="card-box">
+            <div class="card-box-header">
+              <span>Atalhos Teclado & PlayStation</span>
+            </div>
+            <ul class="emu-list">
+              <li><strong>Setas / D-Pad:</strong> Mover seleção</li>
+              <li><strong>Enter / ✕:</strong> Abrir / Iniciar</li>
+              <li><strong>Esc / Backspace / ○:</strong> Voltar / Alternar Biblioteca</li>
+              <li><strong>Q / E / L1 / R1:</strong> Trocar Console</li>
+              <li><strong>Tab / △:</strong> Alternar Configurações</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- SUB-ABA 5: CUSTOMIZAÇÃO & DISCORD -->
+        <div id="tab-custom" class="settings-panel">
+          <h2>Customização & Discord</h2>
+          <p class="panel-desc">Deixe o launcher com a sua cara (cores e fundo) e configure a integração com o Discord.</p>
+
+          <label for="inputCorDestaque" class="field-label">Cor de Destaque (Acento)</label>
+          <div class="input-row">
+            <input id="inputCorDestaque" type="color" value="#7c4dff" />
+            <label for="inputCorBotao" class="field-label" style="margin:0;align-self:center;">Cor Iniciar</label>
+            <input id="inputCorBotao" type="color" value="#22c55e" />
+            <button id="btnResetCustom" class="btn-secondary" type="button">Padrão Roxo/Verde</button>
+          </div>
+
+          <label for="rangeBlurFundo" class="field-label">Desfoque do Fundo (<span id="valorBlur">28</span>px)</label>
+          <div class="input-row">
+            <input id="rangeBlurFundo" type="range" min="0" max="60" value="28" />
+          </div>
+
+          <div class="card-box">
+            <div class="card-box-header">
+              <span>Integração com Discord</span>
+            </div>
+            <label class="field-label" style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+              <input id="checkDiscordAtivo" type="checkbox" checked />
+              <span>Enviar atividade ao abrir jogo</span>
+            </label>
+            <label for="inputDiscordWebhook" class="field-label" style="margin-top:10px;">Webhook URL (opcional para canal/servidor)</label>
+            <div class="input-row" style="margin-bottom:8px;">
+              <input id="inputDiscordWebhook" type="text" placeholder="https://discord.com/api/webhooks/..." />
+              <button id="btnSalvarCustom" class="btn-primary" type="button">Salvar Tudo</button>
+            </div>
+            <p class="panel-desc" style="margin:0;font-size:0.8rem;">
+              Registra a atividade no processo principal ao iniciar o jogo e envia para o Webhook se você preencher uma URL.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer-bar">
+    <div id="statusMensagem" class="status-msg">Pronto.</div>
+    <div id="hintsControle" class="control-hints">
+      <span>←/→ Mover</span>
+      <span>✕/Enter Jogar</span>
+      <span>○ Voltar</span>
+      <span>Q/E/L1/R1 Console</span>
+      <span>Tab Config</span>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

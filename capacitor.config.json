@@ -1,0 +1,8 @@
+cd "/home/billylinux/Documents/FrontEnd /www"
+cat << 'EOF' > capacitor.config.json
+{
+  "appId": "com.cartridge.launcher",
+  "appName": "Cartridge",
+  "webDir": "web"
+}
+EOF

@@ -1,8 +1,10 @@
+cd "/home/billylinux/Documents/FrontEnd /www"
+cat << 'EOF' > web/index.html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>Cartridge — Game Launcher</title>
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -27,7 +29,6 @@
   </header>
 
   <main class="main-container">
-    <!-- ABA BIBLIOTECA -->
     <section id="viewBiblioteca" class="view active">
       <div class="library-header">
         <div>
@@ -45,7 +46,6 @@
       </div>
     </section>
 
-    <!-- ABA CONFIGURAÇÕES -->
     <section id="viewConfiguracoes" class="view">
       <aside class="settings-sidebar">
         <button class="settings-tab active" data-tab="biblioteca" type="button">
@@ -66,7 +66,6 @@
       </aside>
 
       <div class="settings-content">
-        <!-- SUB-ABA 1: BIBLIOTECA & EMULADORES -->
         <div id="tab-biblioteca" class="settings-panel active">
           <h2 id="tituloConfigPasta">Biblioteca & Emuladores</h2>
           <p id="descConfigPasta" class="panel-desc">Selecione a pasta de ROMs e escaneie os emuladores instalados no sistema.</p>
@@ -88,7 +87,6 @@
           </div>
         </div>
 
-        <!-- SUB-ABA 2: ESTILO DO JOGO -->
         <div id="tab-estilo" class="settings-panel">
           <h2 id="tituloEstiloJogo">Estilo do Jogo</h2>
           <p id="descEstiloJogo" class="panel-desc">Escolha como os cards de mídia física / cartucho aparecem na Biblioteca.</p>
@@ -109,7 +107,6 @@
           </div>
         </div>
 
-        <!-- SUB-ABA 3: SCRAPING & CAPAS -->
         <div id="tab-scraping" class="settings-panel">
           <h2 id="tituloScraping">Scraping & Capas</h2>
           <p id="descScraping" class="panel-desc">
@@ -134,7 +131,6 @@
           </div>
         </div>
 
-        <!-- SUB-ABA 4: IDIOMA & CONTROLES -->
         <div id="tab-idioma" class="settings-panel">
           <h2 id="tituloIdiomaControles">Idioma & Controles</h2>
           <p id="descIdiomaControles" class="panel-desc">Escolha o idioma da interface e região preferencial das capas.</p>
@@ -164,7 +160,6 @@
           </div>
         </div>
 
-        <!-- SUB-ABA 5: CUSTOMIZAÇÃO & DISCORD -->
         <div id="tab-custom" class="settings-panel">
           <h2>Customização & Discord</h2>
           <p class="panel-desc">Deixe o launcher com a sua cara (cores e fundo) e configure a integração com o Discord.</p>
@@ -214,7 +209,9 @@
       <span>Tab Config</span>
     </div>
   </footer>
-<script src="./gamepad-nav.js"></script>
+
+  <script src="./gamepadnav.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
+EOF

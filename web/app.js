@@ -91,7 +91,7 @@ const TRADUCOES = {
     todos: "Todos",
     todosOsJogos: "Todos los Juegos",
     jogosCarregados: (n) => `${n} ${n === 1 ? "juego cargado" : "juegos cargados"}`,
-    vazio: "No hay ROMs cargadas. Ve a Configuración para elegir la carpeta.",
+    vazio: "Aún no hay ROMs cargadas. Ve a Configuración para elegir la carpeta de juegos.",
     tabBiblioteca: "Biblioteca y Emuladores",
     tabEstilo: "Estilo del Juego",
     tabScraping: "Scraping y Portadas",
@@ -103,36 +103,36 @@ const TRADUCOES = {
     carregarPasta: "Cargar Carpeta",
     emuladoresDetectados: "Emuladores Detectados",
     escanearEmuladores: "Escanear Emuladores",
-    nenhumEmu: "Aún no se ha escaneado.",
+    nenhumEmu: "Aún no se ha realizado ningún escaneo.",
     tituloEstiloJogo: "Estilo del Juego",
-    descEstiloJogo: "Elige cómo se muestran las tarjetas en la Biblioteca.",
+    descEstiloJogo: "Elige cómo se muestran las tarjetas de medios físicos / cartucho en la Biblioteca.",
     estiloMidiaFisica: "Medio Físico",
     estiloMidiaFisicaDesc: "Carcasa/medio físico por consola con arte del juego.",
     estiloBolinhasVita: "Burbujas PS Vita",
     estiloBolinhasVitaDesc: "Icono circular estilo LiveArea de PS Vita.",
     estiloPadraoCartucho: "Cartucho Estándar",
-    estiloPadraoCartuchoDesc: "Tarjeta clásica con consola y título.",
+    estiloPadraoCartuchoDesc: "Cartucho clásico con consola y título.",
     tituloScraping: "Scraping y Portadas",
-    descScraping: "Busca portada física por consola/región y usa SteamGridDB como apoyo.",
+    descScraping: "Busca portadas físicas por consola/región y usa SteamGridDB como complemento.",
     salvarKey: "Guardar Key",
     keySalvaBuscando: "¡API Key guardada! Buscando portadas...",
     buscandoCapas: "Buscando portadas físicas...",
-    capasAtualizadas: "Búsqueda de portadas finalizada.",
+    capasAtualizadas: "Búsqueda de portadas completada.",
     idiomaAplicado: "Idioma aplicado.",
     customSalva: "Personalización y Discord guardados.",
     temaPadrao: "Tema predeterminado restaurado.",
     iniciandoJogo: (jogo) => `Iniciando ${jogo.titulo} (${jogo.console} • ${jogo.emulador})...`,
-    emuladorNaoEncontrado: (jogo) => `Emulador ${jogo.emulador} no encontrado para ${jogo.titulo}.`
+    emuladorNaoEncontrado: (jogo) => `No se encontró el emulador ${jogo.emulador} para ${jogo.titulo}.`
   },
   ja: {
     biblioteca: "ライブラリ",
     configuracoes: "設定",
-    somOn: "♪ サウンド: ON",
-    somOff: "♪ サウンド: OFF",
+    somOn: "♪ 音声: ON",
+    somOff: "♪ 音声: OFF",
     todos: "すべて",
     todosOsJogos: "すべてのゲーム",
-    jogosCarregados: (n) => `${n} 本のゲーム`,
-    vazio: "ROMが読み込まれていません。設定からフォルダを選択してください。",
+    jogosCarregados: (n) => `${n} 件のゲームを読み込みました`,
+    vazio: "ROMがまだ読み込まれていません。設定からゲームフォルダを選択してください。",
     tabBiblioteca: "ライブラリとエミュレータ",
     tabEstilo: "ゲーム表示スタイル",
     tabScraping: "スクレイピングと表紙",
@@ -140,21 +140,21 @@ const TRADUCOES = {
     tabCustom: "カスタマイズとDiscord",
     tituloConfigPasta: "ライブラリとエミュレータ",
     descConfigPasta: "ROMフォルダを選択し、インストール済みエミュレータを検索します。",
-    escolherPasta: "フォルダ選択",
-    carregarPasta: "フォルダ読込",
+    escolherPasta: "フォルダを選択",
+    carregarPasta: "フォルダを読込",
     emuladoresDetectados: "検出されたエミュレータ",
-    escanearEmuladores: "エミュレータ検索",
-    nenhumEmu: "まだ検索されていません。",
+    escanearEmuladores: "エミュレータを検索",
+    nenhumEmu: "まだ検索は実行されていません。",
     tituloEstiloJogo: "ゲーム表示スタイル",
-    descEstiloJogo: "ライブラリでのカード表示スタイルを選択します。",
-    estiloMidiaFisica: "パッケージ版",
-    estiloMidiaFisicaDesc: "機種ごとの物理メディア枠とゲームアート。",
+    descEstiloJogo: "ライブラリでのパッケージ / カートリッジ表示を選択します。",
+    estiloMidiaFisica: "パッケージ風",
+    estiloMidiaFisicaDesc: "機種ごとのパッケージ/メディア枠とゲームアート。",
     estiloBolinhasVita: "PS Vita バブル",
-    estiloBolinhasVitaDesc: "PS Vita風の円形アイコン。",
-    estiloPadraoCartucho: "カートリッジ標準",
-    estiloPadraoCartuchoDesc: "機種とタイトルを強調したカード。",
+    estiloBolinhasVitaDesc: "PS Vita LiveArea風の丸型アイコン。",
+    estiloPadraoCartucho: "標準カートリッジ",
+    estiloPadraoCartuchoDesc: "機種とタイトルが際立つクラシック表示。",
     tituloScraping: "スクレイピングと表紙",
-    descScraping: "機種・地域ごとのパッケージ画像とSteamGridDBを検索します。",
+    descScraping: "機種・地域ごとのパッケージ表紙を検索し、SteamGridDBを補完に使います。",
     salvarKey: "キーを保存",
     keySalvaBuscando: "APIキーを保存しました！表紙を検索中...",
     buscandoCapas: "パッケージ表紙を検索中...",
@@ -163,24 +163,65 @@ const TRADUCOES = {
     customSalva: "カスタマイズとDiscord設定を保存しました。",
     temaPadrao: "デフォルトテーマに戻しました。",
     iniciandoJogo: (jogo) => `${jogo.titulo} (${jogo.console} • ${jogo.emulador}) を起動中...`,
-    emuladorNaoEncontrado: (jogo) => `${jogo.titulo} 用の ${jogo.emulador} が見つかりません。`
+    emuladorNaoEncontrado: (jogo) => `${jogo.titulo} 用のエミュレータ ${jogo.emulador} が見つかりません。`
   }
 };
 
+// Bloqueia zoom por pinça (2+ dedos) e toque duplo no Android/touch
+(() => {
+  let lastTouchEnd = 0;
+
+  document.addEventListener(
+    "touchstart",
+    (e) => {
+      if (e.touches && e.touches.length > 1) {
+        e.preventDefault();
+      }
+    },
+    { passive: false }
+  );
+
+  document.addEventListener(
+    "touchmove",
+    (e) => {
+      if (e.touches && e.touches.length > 1) {
+        e.preventDefault();
+      }
+    },
+    { passive: false }
+  );
+
+  document.addEventListener(
+    "touchend",
+    (e) => {
+      const now = Date.now();
+      if (now - lastTouchEnd <= 300) {
+        e.preventDefault();
+      }
+      lastTouchEnd = now;
+    },
+    { passive: false }
+  );
+
+  ["gesturestart", "gesturechange", "gestureend"].forEach((evName) => {
+    document.addEventListener(evName, (e) => e.preventDefault(), { passive: false });
+  });
+})();
+
 const state = {
   view: "biblioteca",
-  consoleFiltro: "TODOS",
+  pasta: localStorage.getItem("cartridge_pasta") || "",
   jogos: [],
   emuladores: [],
+  consoleFiltro: "TODOS",
   indiceSelecionado: 0,
   estilo: localStorage.getItem("cartridge_estilo") || "midia-fisica",
-  idioma: localStorage.getItem("cartridge_idioma") || "pt-BR",
   apiKey: localStorage.getItem("cartridge_sgdb_key") || "",
-  pasta: localStorage.getItem("cartridge_pasta") || "",
+  idioma: localStorage.getItem("cartridge_idioma") || "pt-BR",
   somAtivo: localStorage.getItem("cartridge_som") !== "false",
   corDestaque: localStorage.getItem("cartridge_cor_destaque") || "#7c4dff",
   corBotao: localStorage.getItem("cartridge_cor_botao") || "#22c55e",
-  blurFundo: Number(localStorage.getItem("cartridge_blur") || 28),
+  blurFundo: Number(localStorage.getItem("cartridge_blur") ?? 28),
   discordAtivo: localStorage.getItem("cartridge_discord_ativo") !== "false",
   discordWebhook: localStorage.getItem("cartridge_discord_webhook") || "",
   capas: {}
@@ -198,9 +239,9 @@ const el = {
   contadorJogos: document.getElementById("contadorJogos"),
   infoJogoAtual: document.getElementById("infoJogoAtual"),
   carouselContainer: document.getElementById("carouselContainer"),
-  carouselTrack: document.getElementById("carouselTrack"),
   emptyState: document.getElementById("emptyState"),
   textoVazio: document.getElementById("textoVazio"),
+  carouselTrack: document.getElementById("carouselTrack"),
   inputPastaRoms: document.getElementById("inputPastaRoms"),
   btnEscolherPasta: document.getElementById("btnEscolherPasta"),
   btnCarregarPasta: document.getElementById("btnCarregarPasta"),

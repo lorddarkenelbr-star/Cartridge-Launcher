@@ -3,12 +3,34 @@ const path = require("path");
 const fs = require("fs");
 const { spawn } = require("child_process");
 
-require("./server.js");
+function startServerSafely() {
+  try {
+    require("./server.js");
+  } catch (err) {
+    if (err && err.code === "EADDRINUSE") {
+      console.warn("[Server] Porta 3000 já em uso; reutilizando servidor existente.");
+    } else {
+      console.error("[Server] Falha ao iniciar server.js:", err);
+    }
+  }
+}
+
+process.on("uncaughtException", (err) => {
+  if (err && err.code === "EADDRINUSE") {
+    console.warn("[Server] Exceção EADDRINUSE ignorada (porta 3000 já ocupada).");
+    return;
+  }
+  console.error("[Main] Uncaught Exception:", err);
+});
+
+startServerSafely();
 
 let mainWindow = null;
 
 function createWindow() {
   const iconPath = path.join(__dirname, "assets", "icon.png");
+  const htmlPath = path.join(__dirname, "web", "index.html");
+
   const windowOptions = {
     width: 1280,
     height: 800,
@@ -27,7 +49,7 @@ function createWindow() {
   }
 
   mainWindow = new BrowserWindow(windowOptions);
-  mainWindow.loadFile(path.join(__dirname, "index.html"));
+  mainWindow.loadFile(htmlPath);
 }
 
 ipcMain.handle("escolher-pasta", async () => {

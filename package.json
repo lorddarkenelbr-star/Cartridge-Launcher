@@ -1,10 +1,15 @@
 {
   "name": "cartridge",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Cartridge Game Launcher",
+  "author": {
+    "name": "Billy",
+    "email": "billy@example.com"
+  },
   "main": "main.js",
   "scripts": {
     "start": "electron .",
+    "build": "electron-builder --linux --win",
     "build:linux": "electron-builder --linux AppImage pacman",
     "build:win": "electron-builder --win nsis",
     "cap:init": "cap init Cartridge com.cartridge.launcher --web-dir .",

@@ -1,47 +1,8 @@
 (function () {
   const DEADZONE = 0.4;
-  const REPEAT_DELAY_MS = 220;
+  const REPEAT_DELAY_MS = 200;
   const STORAGE_KEY = "cartridge_gamepad_custom_map_v1";
-
-  // Perfis de layout automáticos por quantidade de botões / tipo de mapeamento
-  function detectProfile(gp) {
-    const saved = loadCustomMap(gp.id);
-    if (saved) return saved;
-
-    // Layout padrão W3C (PS4, Xbox, controles compatíveis com standard)
-    if (gp.mapping === "standard" || gp.buttons.length >= 16) {
-      return {
-        confirm: [0],          // X / A
-        back: [1],             // Círculo / B
-        secondary: [2, 3],     // Quadrado / Triângulo ou X / Y
-        dpadUp: [12],
-        dpadDown: [13],
-        dpadLeft: [14],
-        dpadRight: [15],
-        axisX: 0,
-        axisY: 1,
-        dpadAxisX: null,
-        dpadAxisY: null,
-      };
-    }
-
-    // Fallback para controles genéricos / antigos (ex.: 8 a 15 botões)
-    const btnCount = gp.buttons.length;
-    return {
-      confirm: [btnCount > 1 ? 1 : 0, 0],
-      back: [btnCount > 2 ? 2 : 1, 0],
-      secondary: [btnCount > 3 ? 3 : 0],
-      dpadUp: btnCount > 12 ? [12] : [],
-      dpadDown: btnCount > 13 ? [13] : [],
-      dpadLeft: btnCount > 14 ? [14] : [],
-      dpadRight: btnCount > 15 ? [15] : [],
-      axisX: 0,
-      axisY: 1,
-      // Muitos controles genéricos colocam D-pad nos eixos 6 e 7 ou 4 e 5
-      dpadAxisX: gp.axes.length > 6 ? 6 : gp.axes.length > 4 ? 4 : null,
-      dpadAxisY: gp.axes.length > 7 ? 7 : gp.axes.length > 5 ? 5 : null,
-    };
-  }
+  const SELECTED_CLASS = "gamepad-selected";
 
   function loadCustomMap(gamepadId) {
     try {
@@ -62,10 +23,45 @@
     }
   }
 
+  function detectProfile(gp) {
+    const saved = loadCustomMap(gp.id);
+    if (saved) return saved;
+
+    if (gp.mapping === "standard" || gp.buttons.length >= 16) {
+      return {
+        confirm: [0],          // X / A
+        back: [1],             // Círculo / B
+        secondary: [2, 3],     // Quadrado / Triângulo ou X / Y
+        dpadUp: [12],
+        dpadDown: [13],
+        dpadLeft: [14],
+        dpadRight: [15],
+        axisX: 0,
+        axisY: 1,
+        dpadAxisX: null,
+        dpadAxisY: null,
+      };
+    }
+
+    const btnCount = gp.buttons.length;
+    return {
+      confirm: [btnCount > 1 ? 1 : 0, 0],
+      back: [btnCount > 2 ? 2 : 1, 0],
+      secondary: [btnCount > 3 ? 3 : 0],
+      dpadUp: btnCount > 12 ? [12] : [],
+      dpadDown: btnCount > 13 ? [13] : [],
+      dpadLeft: btnCount > 14 ? [14] : [],
+      dpadRight: btnCount > 15 ? [15] : [],
+      axisX: 0,
+      axisY: 1,
+      dpadAxisX: gp.axes.length > 6 ? 6 : gp.axes.length > 4 ? 4 : null,
+      dpadAxisY: gp.axes.length > 7 ? 7 : gp.axes.length > 5 ? 5 : null,
+    };
+  }
+
   const stateByIndex = new Map();
   let lastRepeatTime = 0;
   let prevDir = null;
-  let rafId = null;
 
   function isElementVisibleAndEnabled(el) {
     if (!el || el.disabled) return false;
@@ -94,8 +90,17 @@
     );
   }
 
+  function clearSelectionClasses() {
+    document.querySelectorAll(`.${SELECTED_CLASS}`).forEach((el) => {
+      el.classList.remove(SELECTED_CLASS);
+    });
+  }
+
   function focusElement(el) {
     if (!el) return;
+    clearSelectionClasses();
+    el.classList.add(SELECTED_CLASS);
+
     if (!el.hasAttribute("tabindex") && el.tabIndex < 0) {
       el.setAttribute("tabindex", "0");
     }
@@ -103,7 +108,30 @@
     el.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "smooth" });
   }
 
+  function dispatchArrowKey(direction) {
+    const keyMap = {
+      up: { key: "ArrowUp", code: "ArrowUp" },
+      down: { key: "ArrowDown", code: "ArrowDown" },
+      left: { key: "ArrowLeft", code: "ArrowLeft" },
+      right: { key: "ArrowRight", code: "ArrowRight" },
+    };
+    const info = keyMap[direction];
+    if (!info) return;
+
+    const target = document.activeElement || document.body;
+    target.dispatchEvent(
+      new KeyboardEvent("keydown", {
+        key: info.key,
+        code: info.code,
+        bubbles: true,
+        cancelable: true,
+      })
+    );
+  }
+
   function moveFocus(direction) {
+    dispatchArrowKey(direction);
+
     const items = getFocusableElements();
     if (items.length === 0) return;
 
@@ -180,9 +208,17 @@
     if (!target || !items.includes(target)) {
       target = items[0];
       if (target) focusElement(target);
-      return;
+      if (!target) return;
     }
 
+    target.dispatchEvent(
+      new KeyboardEvent("keydown", {
+        key: "Enter",
+        code: "Enter",
+        bubbles: true,
+        cancelable: true,
+      })
+    );
     target.click();
     target.dispatchEvent(
       new CustomEvent("gamepad:confirm", { bubbles: true, detail: { element: target } })
@@ -199,7 +235,12 @@
       return;
     }
     document.dispatchEvent(
-      new KeyboardEvent("keydown", { key: "Escape", code: "Escape", bubbles: true })
+      new KeyboardEvent("keydown", {
+        key: "Escape",
+        code: "Escape",
+        bubbles: true,
+        cancelable: true,
+      })
     );
   }
 
@@ -214,7 +255,6 @@
     if (anyButtonPressed(gp, profile.dpadLeft)) return "left";
     if (anyButtonPressed(gp, profile.dpadRight)) return "right";
 
-    // D-pad via eixos (comum em controles genéricos)
     if (profile.dpadAxisX !== null && profile.dpadAxisY !== null) {
       const dax = gp.axes[profile.dpadAxisX] ?? 0;
       const day = gp.axes[profile.dpadAxisY] ?? 0;
@@ -224,7 +264,6 @@
       if (dax > DEADZONE) return "right";
     }
 
-    // Analógico esquerdo
     const axisX = gp.axes[profile.axisX ?? 0] ?? 0;
     const axisY = gp.axes[profile.axisY ?? 1] ?? 0;
 
@@ -250,7 +289,6 @@
     const connected = Array.from(gamepads).filter((pad) => pad && pad.connected);
     if (!connected.length) return null;
 
-    // Prioriza algum controle que esteja apertando botão ou movendo eixo agora
     const activeNow = connected.find(
       (pad) =>
         pad.buttons.some((b) => b?.pressed) ||
@@ -303,10 +341,9 @@
       prevDir = null;
     }
 
-    rafId = requestAnimationFrame(pollGamepads);
+    requestAnimationFrame(pollGamepads);
   }
 
-  // API simples no window caso queira salvar um mapeamento manual para um controle específico
   window.CartridgeGamepad = {
     setCustomMap(gamepadId, customMap) {
       const current = detectProfile({ id: gamepadId, mapping: "standard", buttons: [], axes: [] });
@@ -322,6 +359,22 @@
       } catch {
         // ignora
       }
+    },
+    debugState() {
+      const pads = Array.from(navigator.getGamepads ? navigator.getGamepads() : [])
+        .filter(Boolean)
+        .map((p) => ({
+          index: p.index,
+          id: p.id,
+          mapping: p.mapping,
+          buttons: p.buttons.map((b, i) => (b.pressed ? i : null)).filter((v) => v !== null),
+          axes: p.axes.map((a) => Number(a.toFixed(2))),
+        }));
+      return {
+        gamepads: pads,
+        focusableCount: getFocusableElements().length,
+        activeElement: document.activeElement?.tagName || null,
+      };
     },
   };
 
@@ -342,9 +395,9 @@
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", () => {
-      rafId = requestAnimationFrame(pollGamepads);
+      requestAnimationFrame(pollGamepads);
     });
   } else {
-    rafId = requestAnimationFrame(pollGamepads);
+    requestAnimationFrame(pollGamepads);
   }
 })();
